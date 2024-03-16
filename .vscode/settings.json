@@ -9,6 +9,7 @@
     ".command": true,
     ".babelrc": true
   },
-  "files.autoSave": "onFocusChange",
-  "prettier.singleQuote": true
+  "files.autoSave": "afterDelay",
+  "prettier.singleQuote": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

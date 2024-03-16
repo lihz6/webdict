@@ -11,7 +11,7 @@ export default (title: string, message: string, buttons: Button[] = []) => {
     listeners[notificationId] = buttons.map(({ onClick }) => onClick);
   }
   chrome.notifications.create(notificationId, {
-    iconUrl: chrome.extension.getURL('enabled/icon32.png'),
+    iconUrl: chrome.runtime.getURL('enabled/icon32.png'),
     buttons: buttons.map(({ title }) => ({ title })),
     type: 'basic',
     silent: true,

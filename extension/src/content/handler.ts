@@ -1,6 +1,6 @@
-import { BackgroundData, Fetcher, Entry, Rect } from '../shared/types';
-import { dePinv, dePron, deJyut } from './decoder';
+import { Fetcher, Entry, Rect } from '../shared/types';
 import { DICTDOM, ensureDomAttached } from './dictdom';
+import { dePinv, dePron, deJyut } from './decoder';
 import postitle from '../shared/postitle';
 import SECRET from '../shared/common';
 import cookup from './cookup';
@@ -216,9 +216,14 @@ export default function(fetcher: Fetcher) {
               : '粤语';
           button.addEventListener('mouseup', event => {
             event.stopPropagation();
-            fetcher.playme({
-              code: button.dataset.code!,
-            });
+            fetcher
+              .playme({
+                code: button.dataset.code!,
+              })
+              .catch(() => {
+                button.setAttribute('disabled', 'disabled');
+                button.setAttribute('title', '播放失败');
+              });
           });
           button.setAttribute('title', `播放${mark} » [${button.innerText}]`);
         });
@@ -405,13 +410,5 @@ export default function(fetcher: Fetcher) {
   return {
     hideDict,
     tryToShowDict,
-    onPlayError({ code }: BackgroundData.OnPlayError) {
-      for (const target of View.querySelectorAll(`[data-code="${code}"]`)) {
-        if (target) {
-          target.setAttribute('disabled', 'disabled');
-          target.setAttribute('title', '播放失败');
-        }
-      }
-    },
   };
 }

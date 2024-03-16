@@ -29,9 +29,6 @@ export namespace PageScriptData {
   export type Define = { word: string; data: any; type: 'all' | 'own' };
   export type Playme = { code: string };
   export type Viewed = Entry;
-  export namespace Search {
-    export type Callback = (entries: WordData[]) => void;
-  }
 }
 
 export namespace BackgroundData {
@@ -40,7 +37,7 @@ export namespace BackgroundData {
 
 export interface Fetcher {
   search(data: PageScriptData.Search): Promise<WordData[]>;
+  playme(data: PageScriptData.Playme): Promise<void>;
   define(data: PageScriptData.Define): void;
-  playme(data: PageScriptData.Playme): void;
   viewed(data: PageScriptData.Viewed): void;
 }

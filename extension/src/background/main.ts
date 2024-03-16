@@ -1,27 +1,18 @@
-import { BackgroundAction } from '../shared/enums';
 import { PageScriptAction } from '../shared/enums';
 import getOptions from './options';
 import notify from './notifics';
 import { host } from '../fetch';
 import Fetch from '../fetch';
-import play from './player';
 
 type Message = { action: PageScriptAction; data: any };
+
 chrome.runtime.onMessage.addListener(
-  ({ action, data }: Message, sender, sendRes) => {
+  ({ action, data }: Message, _, sendRes: (worddata: any[]) => void) => {
     const { on, jp } = getOptions();
     if (!on) {
       return false;
     }
     switch (action) {
-      case PageScriptAction.PLAY_SOUND:
-        play(data, data => {
-          chrome.tabs.sendMessage(sender.tab!.id!, {
-            action: BackgroundAction.PLAY_ERROR,
-            data,
-          });
-        });
-        return false;
       case PageScriptAction.SEARCH_TEXT:
         Fetch.search(data).then(worddata => {
           if (!jp && data.lang === 'zh') {
@@ -51,7 +42,13 @@ chrome.runtime.onMessage.addListener(
       case PageScriptAction.WORD_VIEWED:
         return false;
       default:
-        throw `Unknown action: ${action}`;
+        return false;
     }
   }
 );
+
+chrome.offscreen.createDocument({
+  justification: 'play audio', // details for using the API
+  reasons: [chrome.offscreen.Reason.AUDIO_PLAYBACK],
+  url: 'offscreen.html',
+});

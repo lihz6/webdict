@@ -4,8 +4,3 @@ export type OptionProps = {
   en: boolean;
   jp: boolean;
 };
-
-export interface BGWindow extends Window {
-  setOptions<K extends keyof OptionProps>(key: K, val: OptionProps[K]): void;
-  getOptions(): OptionProps;
-}

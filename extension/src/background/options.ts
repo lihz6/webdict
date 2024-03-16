@@ -1,6 +1,4 @@
-import { BGWindow, OptionProps } from '.';
-
-declare const window: BGWindow;
+import { OptionProps } from '.';
 
 let options: OptionProps = {
   on: true,
@@ -19,22 +17,20 @@ const dIcons = {
 const { icons: eIcons } = chrome.runtime.getManifest();
 
 function setIcon(enabled: boolean) {
-  chrome.browserAction.setIcon({
+  chrome.action.setIcon({
     path: enabled ? eIcons : dIcons,
   });
 }
 
-chrome.browserAction.onClicked.addListener(() => {
-  window.setOptions('on', !options.on);
+chrome.action.onClicked.addListener(() => {
+  setOptions('on', !options.on);
 });
 
 export default function getOptions() {
   return options;
 }
 
-window.getOptions = getOptions;
-
-window.setOptions = (key, val) => {
+const setOptions = (key, val) => {
   if (key === 'on') {
     setIcon(val);
   }

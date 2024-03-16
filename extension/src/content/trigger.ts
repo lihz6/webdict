@@ -3,7 +3,7 @@ import { shorten, staticText } from './utility';
 import handler from './handler';
 
 export default function(fetcher: Fetcher) {
-  const { tryToShowDict, hideDict, onPlayError } = handler(fetcher);
+  const { tryToShowDict, hideDict } = handler(fetcher);
   let mousedownTargetIsNotLanxEdit = true;
   let mouseupEnabled = true;
   let dictEnabled = true;
@@ -65,7 +65,6 @@ export default function(fetcher: Fetcher) {
   });
 
   return {
-    onPlayError,
     toggleDictEnabled() {
       return (dictEnabled = !dictEnabled);
     },

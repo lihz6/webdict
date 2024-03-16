@@ -29,7 +29,7 @@ CREATE TABLE pron_tab(
 .import eng.txt pron_tab
 
 CREATE INDEX pron_idx ON pron_tab(
-   word COLLATE NOCASE
+  word COLLATE NOCASE
 );
 
 CREATE TABLE mean_tab(
